@@ -1,5 +1,5 @@
 const Color = require("../models/Color");
-const { body, validationResult } = require("express-validator");
+const { body, param, validationResult } = require("express-validator");
 
 const handleValidationsErrors = (req, res, next) => {
   const errors = validationResult(req);
@@ -34,7 +34,17 @@ const validateColor = [
   handleValidationsErrors,
 ];
 
+const validateDeleteColor = [
+  param("id")
+    .notEmpty()
+    .withMessage("El id es requerido")
+    .isMongoId()
+    .withMessage("El id debe ser un id de mongo"),
+  handleValidationsErrors,
+];
+
 module.exports = {
   validateColor,
+  validateDeleteColor,
   handleValidationsErrors,
 };

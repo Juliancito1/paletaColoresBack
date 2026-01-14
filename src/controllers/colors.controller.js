@@ -4,7 +4,7 @@ const getColors = async (req, res) => {
   try {
     const colors = await Color.find();
     if (colors.length === 0) {
-     return res.status(404).json({ message: "No se encontraron colores" });
+      return res.status(404).json({ message: "No se encontraron colores" });
     }
 
     return res.status(200).json({
@@ -46,7 +46,30 @@ const createColor = async (req, res) => {
   }
 };
 
+const deleteColor = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({
+      ok: false,
+      message: "No se pudo borrar el color",
+    });
+  }
+
+  try {
+    await Color.findByIdAndDelete(req.params.id);
+    return res.status(200).json({
+      ok: true,
+      message: "Color borrado",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getColors,
   createColor,
-}
+  deleteColor,
+};
