@@ -68,8 +68,30 @@ const deleteColor = async (req, res) => {
   }
 };
 
+const editarColor = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({
+      ok: false,
+      message: "No se pudo encontrar el color a editar",
+    });
+  }
+  try {
+    await Color.findByIdAndUpdate(req.params.id, req.body);
+    return res.status(200).json({
+      ok: true,
+      message: "Color editado",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getColors,
   createColor,
   deleteColor,
+  editarColor,
 };
