@@ -55,10 +55,11 @@ const deleteColor = async (req, res) => {
   }
 
   try {
-    await Color.findByIdAndDelete(req.params.id);
+    const color = await Color.findByIdAndDelete(req.params.id)
     return res.status(200).json({
       ok: true,
       message: "Color borrado",
+      color
     });
   } catch (error) {
     return res.status(500).json({
@@ -75,11 +76,13 @@ const editarColor = async (req, res) => {
       message: "No se pudo encontrar el color a editar",
     });
   }
+
   try {
-    await Color.findByIdAndUpdate(req.params.id, req.body);
+    const color = await Color.findByIdAndUpdate(req.params.id, req.body)
     return res.status(200).json({
       ok: true,
       message: "Color editado",
+      color
     });
   } catch (error) {
     return res.status(500).json({
